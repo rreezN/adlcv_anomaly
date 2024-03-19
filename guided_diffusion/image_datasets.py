@@ -9,7 +9,7 @@ from torch.utils.data import DataLoader, Dataset
 from torchvision import transforms
 from .train_util import visualize
 from visdom import Visdom
-viz = Visdom(port=8850)
+viz = Visdom(port=8097)
 from scipy import ndimage
 
 

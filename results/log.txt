@@ -1,0 +1,578 @@
+Logging to ./results
+creating model and diffusion...
+creating data loader...
+creating optimizer...
+training classifier model...
+-----------------------------
+| grad_norm      | 158      |
+| param_norm     | 102      |
+| samples        | 10       |
+| step           | 0        |
+| train_acc@1    | 0        |
+| train_acc@1_q1 | 0        |
+| train_acc@1_q2 | 0        |
+| train_acc@1_q3 | 0        |
+| train_acc@2    | 1        |
+| train_acc@2_q1 | 1        |
+| train_acc@2_q2 | 1        |
+| train_acc@2_q3 | 1        |
+| train_loss     | 0.815    |
+| train_loss_q1  | 0.834    |
+| train_loss_q2  | 0.812    |
+| train_loss_q3  | 0.807    |
+-----------------------------
+-----------------------------
+| grad_norm      | 5.87     |
+| param_norm     | 102      |
+| samples        | 20       |
+| step           | 1        |
+| train_acc@1    | 1        |
+| train_acc@1_q1 | 1        |
+| train_acc@1_q2 | 1        |
+| train_acc@1_q3 | 1        |
+| train_acc@2    | 1        |
+| train_acc@2_q1 | 1        |
+| train_acc@2_q2 | 1        |
+| train_acc@2_q3 | 1        |
+| train_loss     | 0.145    |
+| train_loss_q1  | 0.146    |
+| train_loss_q2  | 0.145    |
+| train_loss_q3  | 0.145    |
+-----------------------------
+-----------------------------
+| grad_norm      | 2.07     |
+| param_norm     | 102      |
+| samples        | 30       |
+| step           | 2        |
+| train_acc@1    | 1        |
+| train_acc@1_q1 | 1        |
+| train_acc@1_q3 | 1        |
+| train_acc@2    | 1        |
+| train_acc@2_q1 | 1        |
+| train_acc@2_q3 | 1        |
+| train_loss     | 0.0909   |
+| train_loss_q1  | 0.0908   |
+| train_loss_q3  | 0.0911   |
+-----------------------------
+-----------------------------
+| grad_norm      | 1.44     |
+| param_norm     | 102      |
+| samples        | 40       |
+| step           | 3        |
+| train_acc@1    | 1        |
+| train_acc@1_q0 | 1        |
+| train_acc@1_q1 | 1        |
+| train_acc@1_q2 | 1        |
+| train_acc@2    | 1        |
+| train_acc@2_q0 | 1        |
+| train_acc@2_q1 | 1        |
+| train_acc@2_q2 | 1        |
+| train_loss     | 0.0756   |
+| train_loss_q0  | 0.0793   |
+| train_loss_q1  | 0.0718   |
+| train_loss_q2  | 0.0719   |
+-----------------------------
+-----------------------------
+| grad_norm      | 1.06     |
+| param_norm     | 102      |
+| samples        | 50       |
+| step           | 4        |
+| train_acc@1    | 1        |
+| train_acc@1_q0 | 1        |
+| train_acc@1_q3 | 1        |
+| train_acc@2    | 1        |
+| train_acc@2_q0 | 1        |
+| train_acc@2_q3 | 1        |
+| train_loss     | 0.0635   |
+| train_loss_q0  | 0.0642   |
+| train_loss_q3  | 0.0615   |
+-----------------------------
+-----------------------------
+| grad_norm      | 0.962    |
+| param_norm     | 102      |
+| samples        | 60       |
+| step           | 5        |
+| train_acc@1    | 1        |
+| train_acc@1_q0 | 1        |
+| train_acc@1_q1 | 1        |
+| train_acc@1_q2 | 1        |
+| train_acc@2    | 1        |
+| train_acc@2_q0 | 1        |
+| train_acc@2_q1 | 1        |
+| train_acc@2_q2 | 1        |
+| train_loss     | 0.0562   |
+| train_loss_q0  | 0.0566   |
+| train_loss_q1  | 0.0562   |
+| train_loss_q2  | 0.0558   |
+-----------------------------
+-----------------------------
+| grad_norm      | 0.719    |
+| param_norm     | 102      |
+| samples        | 70       |
+| step           | 6        |
+| train_acc@1    | 1        |
+| train_acc@1_q1 | 1        |
+| train_acc@1_q2 | 1        |
+| train_acc@1_q3 | 1        |
+| train_acc@2    | 1        |
+| train_acc@2_q1 | 1        |
+| train_acc@2_q2 | 1        |
+| train_acc@2_q3 | 1        |
+| train_loss     | 0.0505   |
+| train_loss_q1  | 0.0507   |
+| train_loss_q2  | 0.0504   |
+| train_loss_q3  | 0.0503   |
+-----------------------------
+-----------------------------
+| grad_norm      | 0.585    |
+| param_norm     | 102      |
+| samples        | 80       |
+| step           | 7        |
+| train_acc@1    | 1        |
+| train_acc@1_q0 | 1        |
+| train_acc@1_q1 | 1        |
+| train_acc@1_q2 | 1        |
+| train_acc@2    | 1        |
+| train_acc@2_q0 | 1        |
+| train_acc@2_q1 | 1        |
+| train_acc@2_q2 | 1        |
+| train_loss     | 0.0472   |
+| train_loss_q0  | 0.0497   |
+| train_loss_q1  | 0.0463   |
+| train_loss_q2  | 0.0463   |
+-----------------------------
+-----------------------------
+| grad_norm      | 0.524    |
+| param_norm     | 102      |
+| samples        | 90       |
+| step           | 8        |
+| train_acc@1    | 1        |
+| train_acc@1_q0 | 1        |
+| train_acc@1_q2 | 1        |
+| train_acc@1_q3 | 1        |
+| train_acc@2    | 1        |
+| train_acc@2_q0 | 1        |
+| train_acc@2_q2 | 1        |
+| train_acc@2_q3 | 1        |
+| train_loss     | 0.0443   |
+| train_loss_q0  | 0.0452   |
+| train_loss_q2  | 0.0435   |
+| train_loss_q3  | 0.0434   |
+-----------------------------
+-----------------------------
+| grad_norm      | 0.477    |
+| param_norm     | 102      |
+| samples        | 100      |
+| step           | 9        |
+| train_acc@1    | 1        |
+| train_acc@1_q0 | 1        |
+| train_acc@1_q3 | 1        |
+| train_acc@2    | 1        |
+| train_acc@2_q0 | 1        |
+| train_acc@2_q3 | 1        |
+| train_loss     | 0.0411   |
+| train_loss_q0  | 0.0412   |
+| train_loss_q3  | 0.041    |
+-----------------------------
+-----------------------------
+| grad_norm      | 0.446    |
+| param_norm     | 102      |
+| samples        | 110      |
+| step           | 10       |
+| train_acc@1    | 1        |
+| train_acc@1_q1 | 1        |
+| train_acc@2    | 1        |
+| train_acc@2_q1 | 1        |
+| train_loss     | 0.0389   |
+| train_loss_q1  | 0.0389   |
+-----------------------------
+-----------------------------
+| grad_norm      | 0.424    |
+| param_norm     | 102      |
+| samples        | 120      |
+| step           | 11       |
+| train_acc@1    | 1        |
+| train_acc@1_q1 | 1        |
+| train_acc@1_q2 | 1        |
+| train_acc@1_q3 | 1        |
+| train_acc@2    | 1        |
+| train_acc@2_q1 | 1        |
+| train_acc@2_q2 | 1        |
+| train_acc@2_q3 | 1        |
+| train_loss     | 0.0369   |
+| train_loss_q1  | 0.037    |
+| train_loss_q2  | 0.037    |
+| train_loss_q3  | 0.0369   |
+-----------------------------
+-----------------------------
+| grad_norm      | 0.408    |
+| param_norm     | 102      |
+| samples        | 130      |
+| step           | 12       |
+| train_acc@1    | 1        |
+| train_acc@1_q0 | 1        |
+| train_acc@1_q1 | 1        |
+| train_acc@1_q2 | 1        |
+| train_acc@1_q3 | 1        |
+| train_acc@2    | 1        |
+| train_acc@2_q0 | 1        |
+| train_acc@2_q1 | 1        |
+| train_acc@2_q2 | 1        |
+| train_acc@2_q3 | 1        |
+| train_loss     | 0.0354   |
+| train_loss_q0  | 0.0356   |
+| train_loss_q1  | 0.0355   |
+| train_loss_q2  | 0.0353   |
+| train_loss_q3  | 0.0353   |
+-----------------------------
+-----------------------------
+| grad_norm      | 0.393    |
+| param_norm     | 102      |
+| samples        | 140      |
+| step           | 13       |
+| train_acc@1    | 1        |
+| train_acc@1_q0 | 1        |
+| train_acc@1_q1 | 1        |
+| train_acc@1_q3 | 1        |
+| train_acc@2    | 1        |
+| train_acc@2_q0 | 1        |
+| train_acc@2_q1 | 1        |
+| train_acc@2_q3 | 1        |
+| train_loss     | 0.034    |
+| train_loss_q0  | 0.0341   |
+| train_loss_q1  | 0.034    |
+| train_loss_q3  | 0.0338   |
+-----------------------------
+-----------------------------
+| grad_norm      | 0.372    |
+| param_norm     | 102      |
+| samples        | 150      |
+| step           | 14       |
+| train_acc@1    | 1        |
+| train_acc@1_q1 | 1        |
+| train_acc@1_q2 | 1        |
+| train_acc@1_q3 | 1        |
+| train_acc@2    | 1        |
+| train_acc@2_q1 | 1        |
+| train_acc@2_q2 | 1        |
+| train_acc@2_q3 | 1        |
+| train_loss     | 0.0323   |
+| train_loss_q1  | 0.0323   |
+| train_loss_q2  | 0.0323   |
+| train_loss_q3  | 0.0322   |
+-----------------------------
+-----------------------------
+| grad_norm      | 0.352    |
+| param_norm     | 102      |
+| samples        | 160      |
+| step           | 15       |
+| train_acc@1    | 1        |
+| train_acc@1_q0 | 1        |
+| train_acc@1_q1 | 1        |
+| train_acc@1_q2 | 1        |
+| train_acc@2    | 1        |
+| train_acc@2_q0 | 1        |
+| train_acc@2_q1 | 1        |
+| train_acc@2_q2 | 1        |
+| train_loss     | 0.0309   |
+| train_loss_q0  | 0.0311   |
+| train_loss_q1  | 0.031    |
+| train_loss_q2  | 0.0307   |
+-----------------------------
+-----------------------------
+| grad_norm      | 0.336    |
+| param_norm     | 102      |
+| samples        | 170      |
+| step           | 16       |
+| train_acc@1    | 1        |
+| train_acc@1_q0 | 1        |
+| train_acc@1_q1 | 1        |
+| train_acc@1_q3 | 1        |
+| train_acc@2    | 1        |
+| train_acc@2_q0 | 1        |
+| train_acc@2_q1 | 1        |
+| train_acc@2_q3 | 1        |
+| train_loss     | 0.0295   |
+| train_loss_q0  | 0.0297   |
+| train_loss_q1  | 0.0295   |
+| train_loss_q3  | 0.0293   |
+-----------------------------
+-----------------------------
+| grad_norm      | 0.324    |
+| param_norm     | 102      |
+| samples        | 180      |
+| step           | 17       |
+| train_acc@1    | 1        |
+| train_acc@1_q0 | 1        |
+| train_acc@1_q1 | 1        |
+| train_acc@1_q3 | 1        |
+| train_acc@2    | 1        |
+| train_acc@2_q0 | 1        |
+| train_acc@2_q1 | 1        |
+| train_acc@2_q3 | 1        |
+| train_loss     | 0.0283   |
+| train_loss_q0  | 0.0285   |
+| train_loss_q1  | 0.0283   |
+| train_loss_q3  | 0.028    |
+-----------------------------
+-----------------------------
+| grad_norm      | 0.308    |
+| param_norm     | 102      |
+| samples        | 190      |
+| step           | 18       |
+| train_acc@1    | 1        |
+| train_acc@1_q2 | 1        |
+| train_acc@1_q3 | 1        |
+| train_acc@2    | 1        |
+| train_acc@2_q2 | 1        |
+| train_acc@2_q3 | 1        |
+| train_loss     | 0.0268   |
+| train_loss_q2  | 0.0268   |
+| train_loss_q3  | 0.0268   |
+-----------------------------
+-----------------------------
+| grad_norm      | 0.299    |
+| param_norm     | 102      |
+| samples        | 200      |
+| step           | 19       |
+| train_acc@1    | 1        |
+| train_acc@1_q0 | 1        |
+| train_acc@1_q1 | 1        |
+| train_acc@1_q3 | 1        |
+| train_acc@2    | 1        |
+| train_acc@2_q0 | 1        |
+| train_acc@2_q1 | 1        |
+| train_acc@2_q3 | 1        |
+| train_loss     | 0.0257   |
+| train_loss_q0  | 0.0258   |
+| train_loss_q1  | 0.0258   |
+| train_loss_q3  | 0.0255   |
+-----------------------------
+-----------------------------
+| grad_norm      | 0.288    |
+| param_norm     | 102      |
+| samples        | 210      |
+| step           | 20       |
+| train_acc@1    | 1        |
+| train_acc@1_q0 | 1        |
+| train_acc@1_q1 | 1        |
+| train_acc@1_q3 | 1        |
+| train_acc@2    | 1        |
+| train_acc@2_q0 | 1        |
+| train_acc@2_q1 | 1        |
+| train_acc@2_q3 | 1        |
+| train_loss     | 0.0244   |
+| train_loss_q0  | 0.0247   |
+| train_loss_q1  | 0.0245   |
+| train_loss_q3  | 0.0243   |
+-----------------------------
+-----------------------------
+| grad_norm      | 0.274    |
+| param_norm     | 102      |
+| samples        | 220      |
+| step           | 21       |
+| train_acc@1    | 1        |
+| train_acc@1_q1 | 1        |
+| train_acc@1_q3 | 1        |
+| train_acc@2    | 1        |
+| train_acc@2_q1 | 1        |
+| train_acc@2_q3 | 1        |
+| train_loss     | 0.0231   |
+| train_loss_q1  | 0.0231   |
+| train_loss_q3  | 0.0231   |
+-----------------------------
+-----------------------------
+| grad_norm      | 0.29     |
+| param_norm     | 102      |
+| samples        | 230      |
+| step           | 22       |
+| train_acc@1    | 1        |
+| train_acc@1_q0 | 1        |
+| train_acc@1_q1 | 1        |
+| train_acc@1_q3 | 1        |
+| train_acc@2    | 1        |
+| train_acc@2_q0 | 1        |
+| train_acc@2_q1 | 1        |
+| train_acc@2_q3 | 1        |
+| train_loss     | 0.0218   |
+| train_loss_q0  | 0.0221   |
+| train_loss_q1  | 0.0216   |
+| train_loss_q3  | 0.0219   |
+-----------------------------
+-----------------------------
+| grad_norm      | 0.277    |
+| param_norm     | 102      |
+| samples        | 240      |
+| step           | 23       |
+| train_acc@1    | 1        |
+| train_acc@1_q0 | 1        |
+| train_acc@1_q3 | 1        |
+| train_acc@2    | 1        |
+| train_acc@2_q0 | 1        |
+| train_acc@2_q3 | 1        |
+| train_loss     | 0.0205   |
+| train_loss_q0  | 0.0203   |
+| train_loss_q3  | 0.0208   |
+-----------------------------
+-----------------------------
+| grad_norm      | 0.258    |
+| param_norm     | 102      |
+| samples        | 250      |
+| step           | 24       |
+| train_acc@1    | 1        |
+| train_acc@1_q0 | 1        |
+| train_acc@1_q1 | 1        |
+| train_acc@1_q3 | 1        |
+| train_acc@2    | 1        |
+| train_acc@2_q0 | 1        |
+| train_acc@2_q1 | 1        |
+| train_acc@2_q3 | 1        |
+| train_loss     | 0.0192   |
+| train_loss_q0  | 0.0192   |
+| train_loss_q1  | 0.0183   |
+| train_loss_q3  | 0.0197   |
+-----------------------------
+-----------------------------
+| grad_norm      | 0.283    |
+| param_norm     | 102      |
+| samples        | 260      |
+| step           | 25       |
+| train_acc@1    | 1        |
+| train_acc@1_q0 | 1        |
+| train_acc@1_q1 | 1        |
+| train_acc@1_q2 | 1        |
+| train_acc@2    | 1        |
+| train_acc@2_q0 | 1        |
+| train_acc@2_q1 | 1        |
+| train_acc@2_q2 | 1        |
+| train_loss     | 0.0169   |
+| train_loss_q0  | 0.0179   |
+| train_loss_q1  | 0.0162   |
+| train_loss_q2  | 0.0167   |
+-----------------------------
+-----------------------------
+| grad_norm      | 0.301    |
+| param_norm     | 102      |
+| samples        | 270      |
+| step           | 26       |
+| train_acc@1    | 1        |
+| train_acc@1_q0 | 1        |
+| train_acc@1_q1 | 1        |
+| train_acc@1_q2 | 1        |
+| train_acc@2    | 1        |
+| train_acc@2_q0 | 1        |
+| train_acc@2_q1 | 1        |
+| train_acc@2_q2 | 1        |
+| train_loss     | 0.0146   |
+| train_loss_q0  | 0.0143   |
+| train_loss_q1  | 0.014    |
+| train_loss_q2  | 0.0156   |
+-----------------------------
+-----------------------------
+| grad_norm      | 0.314    |
+| param_norm     | 102      |
+| samples        | 280      |
+| step           | 27       |
+| train_acc@1    | 1        |
+| train_acc@1_q1 | 1        |
+| train_acc@1_q2 | 1        |
+| train_acc@1_q3 | 1        |
+| train_acc@2    | 1        |
+| train_acc@2_q1 | 1        |
+| train_acc@2_q2 | 1        |
+| train_acc@2_q3 | 1        |
+| train_loss     | 0.013    |
+| train_loss_q1  | 0.0116   |
+| train_loss_q2  | 0.012    |
+| train_loss_q3  | 0.0143   |
+-----------------------------
+-----------------------------
+| grad_norm      | 0.243    |
+| param_norm     | 102      |
+| samples        | 290      |
+| step           | 28       |
+| train_acc@1    | 1        |
+| train_acc@1_q0 | 1        |
+| train_acc@1_q2 | 1        |
+| train_acc@1_q3 | 1        |
+| train_acc@2    | 1        |
+| train_acc@2_q0 | 1        |
+| train_acc@2_q2 | 1        |
+| train_acc@2_q3 | 1        |
+| train_loss     | 0.0105   |
+| train_loss_q0  | 0.00922  |
+| train_loss_q2  | 0.00938  |
+| train_loss_q3  | 0.0138   |
+-----------------------------
+-----------------------------
+| grad_norm      | 0.225    |
+| param_norm     | 102      |
+| samples        | 300      |
+| step           | 29       |
+| train_acc@1    | 1        |
+| train_acc@1_q0 | 1        |
+| train_acc@1_q1 | 1        |
+| train_acc@1_q2 | 1        |
+| train_acc@2    | 1        |
+| train_acc@2_q0 | 1        |
+| train_acc@2_q1 | 1        |
+| train_acc@2_q2 | 1        |
+| train_loss     | 0.00713  |
+| train_loss_q0  | 0.00705  |
+| train_loss_q1  | 0.00706  |
+| train_loss_q2  | 0.0072   |
+-----------------------------
+-----------------------------
+| grad_norm      | 0.18     |
+| param_norm     | 102      |
+| samples        | 310      |
+| step           | 30       |
+| train_acc@1    | 1        |
+| train_acc@1_q0 | 1        |
+| train_acc@1_q1 | 1        |
+| train_acc@1_q3 | 1        |
+| train_acc@2    | 1        |
+| train_acc@2_q0 | 1        |
+| train_acc@2_q1 | 1        |
+| train_acc@2_q3 | 1        |
+| train_loss     | 0.00565  |
+| train_loss_q0  | 0.00552  |
+| train_loss_q1  | 0.00522  |
+| train_loss_q3  | 0.00664  |
+-----------------------------
+-----------------------------
+| grad_norm      | 0.147    |
+| param_norm     | 102      |
+| samples        | 320      |
+| step           | 31       |
+| train_acc@1    | 1        |
+| train_acc@1_q0 | 1        |
+| train_acc@1_q1 | 1        |
+| train_acc@1_q2 | 1        |
+| train_acc@1_q3 | 1        |
+| train_acc@2    | 1        |
+| train_acc@2_q0 | 1        |
+| train_acc@2_q1 | 1        |
+| train_acc@2_q2 | 1        |
+| train_acc@2_q3 | 1        |
+| train_loss     | 0.00382  |
+| train_loss_q0  | 0.00385  |
+| train_loss_q1  | 0.00371  |
+| train_loss_q2  | 0.00433  |
+| train_loss_q3  | 0.00341  |
+-----------------------------
+-----------------------------
+| grad_norm      | 0.228    |
+| param_norm     | 102      |
+| samples        | 330      |
+| step           | 32       |
+| train_acc@1    | 1        |
+| train_acc@1_q2 | 1        |
+| train_acc@1_q3 | 1        |
+| train_acc@2    | 1        |
+| train_acc@2_q2 | 1        |
+| train_acc@2_q3 | 1        |
+| train_loss     | 0.00282  |
+| train_loss_q2  | 0.00243  |
+| train_loss_q3  | 0.00322  |
+-----------------------------

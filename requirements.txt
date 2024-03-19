@@ -41,9 +41,9 @@ sklearn==0.0
 threadpoolctl==3.0.0
 tifffile==2021.11.2
 tomli==1.2.2
-torch==1.7.1+cu110
-torchfile==0.1.0
-torchvision==0.8.2+cu110
+torch
+torchfile
+torchvision
 tornado==6.1
 tqdm==4.62.3
 traceback2==1.4.0
