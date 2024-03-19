@@ -7,7 +7,7 @@ import numpy as np
 import torch as th
 from skimage.filters import threshold_otsu
 
-def visualize(img):
+def visualize(img): 
     _min = img.min()
     _max = img.max()
     normalized_img = (img - _min)/ (_max - _min)
