@@ -6,4 +6,4 @@ anomalyenv/
 
 # ignore pycache
 .pyc
-pycache/
+__pycache__/
