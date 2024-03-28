@@ -3,3 +3,7 @@ data/
 
 # ignore venv
 anomalyenv/
+
+# ignore pycache
+.pyc
+pycache/
