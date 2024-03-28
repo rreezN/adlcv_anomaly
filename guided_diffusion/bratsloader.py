@@ -35,7 +35,7 @@ class BRATSDataset(torch.utils.data.Dataset):
                 datapoint = dict()
                 # extract all files as channels
                 for f in files:
-                    seqtype = f.split('_')[3]
+                    seqtype = f.split('_')[2].split('.')[0]
                     datapoint[seqtype] = os.path.join(root, f)
                 assert set(datapoint.keys()) == self.seqtypes_set, \
                     f'datapoint is incomplete, keys are {datapoint.keys()}'
@@ -45,7 +45,7 @@ class BRATSDataset(torch.utils.data.Dataset):
         out = []
         filedict = self.database[x]
         for seqtype in self.seqtypes:
-            number=filedict['t1'].split('_')[4]
+            number=filedict['t1'].split('_')[2]
             nib_img = nibabel.load(filedict[seqtype])
             out.append(torch.tensor(nib_img.get_fdata()))
         out = torch.stack(out)
