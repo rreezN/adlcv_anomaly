@@ -3,7 +3,12 @@ data/
 
 # ignore venv
 anomalyenv/
+anovenv/
 
 # ignore pycache
 .pyc
-__pycache__/
+pycache/
+guided_diffusion/__pycache__/
+
+results/log.txt
+results/progress.csv

@@ -248,7 +248,7 @@ def split_microbatches(microbatch, *args):
 
 def create_argparser():
     defaults = dict(
-        data_dir="",
+        data_dir="data/brats/training",
         val_data_dir="",
         noised=True,
         iterations=150000,
