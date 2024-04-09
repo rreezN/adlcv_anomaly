@@ -97,7 +97,8 @@ def create_model_and_diffusion(
     resblock_updown,
     use_fp16,
     use_new_attention_order,
-    dataset
+    dataset,
+    use_lmse
 ):
     print('timestepresp1',timestep_respacing )
     model = create_model(
@@ -124,6 +125,7 @@ def create_model_and_diffusion(
         learn_sigma=learn_sigma,
         noise_schedule=noise_schedule,
         use_kl=use_kl,
+        use_lmse=use_lmse,
         predict_xstart=predict_xstart,
         rescale_timesteps=rescale_timesteps,
         rescale_learned_sigmas=rescale_learned_sigmas,
