@@ -54,17 +54,16 @@ class BRATSDataset(torch.utils.data.Dataset):
         out = []
         filedict = self.database[x]
         for seqtype in self.seqtypes:
-            if seqtype == 'seg':
-                continue
             number=filedict['t1'].split('_')[3].split('.')[0]
+            nu = filedict['t1'].split('_')[1]
+            n = filedict['t1'].split('\\')[1]
             nib_img = nibabel.load(filedict[seqtype])
             out.append(torch.tensor(nib_img.get_fdata()))
         out = torch.stack(out)
         out_dict = {}
         if self.test_flag:
-            # path2 = './data/brats/testing/' + str(
-                # number) + '-label.nii.gz'
-            path2 = filedict['seg']
+            path2 = './data/brats21/processed/testing/' + str(n) + '/BraTS2021_' + str(
+                nu) + '_seg_' + str(number) + '.nii.gz'
 
             seg=nibabel.load(path2)
             seg=seg.get_fdata()
@@ -86,10 +85,18 @@ class BRATSDataset(torch.utils.data.Dataset):
                 weak_label=0
             out_dict["y"] = weak_label
 
-        return (image, out_dict, weak_label, label, number )
+        return (image, out_dict, weak_label, label, number)
 
     def __len__(self):
         return len(self.database)
 
 
-
+if __name__ == '__main__':
+    ds = BRATSDataset('data/brats21/processed/testing', test_flag=True)
+    datal = torch.utils.data.DataLoader(ds, batch_size=5, shuffle=True)
+    datal = iter(datal)
+    batch, cond, label, _, _ = next(datal)
+    print(batch.shape, cond, label)
+    # for batch, cond, label in datal:
+    #     print(batch.shape, cond, label)
+    #     break
