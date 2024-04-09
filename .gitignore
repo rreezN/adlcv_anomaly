@@ -13,4 +13,6 @@ guided_diffusion/__pycache__/
 results/log.txt
 results/progress.csv
 
+
+models/ 
 *.pt
