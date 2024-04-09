@@ -17,7 +17,7 @@ import numpy as np
 import torch as th
 from .train_util import visualize
 from .nn import mean_flat
-from .losses import normal_kl, discretized_gaussian_log_likelihood
+from .losses import normal_kl, discretized_gaussian_log_likelihood, LMSELoss
 from scipy import ndimage
 from torchvision import transforms
 import matplotlib.pyplot as plt
@@ -111,6 +111,7 @@ class LossType(enum.Enum):
     RESCALED_MSE = (
         enum.auto()
     )  # use raw MSE loss (with RESCALED_KL when learning variances)
+    LMSE = enum.auto()  # use MSE loss on logit space
     KL = enum.auto()  # use the variational lower-bound
     RESCALED_KL = enum.auto()  # like KL, but rescale to estimate the full VLB
 
@@ -1071,7 +1072,7 @@ class GaussianDiffusion:
             )["output"]
             if self.loss_type == LossType.RESCALED_KL:
                 terms["loss"] *= self.num_timesteps
-        elif self.loss_type == LossType.MSE or self.loss_type == LossType.RESCALED_MSE:
+        elif self.loss_type == LossType.MSE or self.loss_type == LossType.RESCALED_MSE or self.loss_type == LossType.LMSE:
             model_output = model(x_t, self._scale_timesteps(t), **model_kwargs)
 
             if self.model_var_type in [
@@ -1104,7 +1105,11 @@ class GaussianDiffusion:
                 ModelMeanType.EPSILON: noise,
             }[self.model_mean_type]
             assert model_output.shape == target.shape == x_start.shape
-            terms["mse"] = mean_flat((target - model_output) ** 2)
+            if self.loss_type == LossType.LMSE:
+                print("Using LMSE")
+                terms["mse"] = mean_flat(LMSELoss(target, model_output))
+            else:
+                terms["mse"] = mean_flat((target - model_output) ** 2)
             if "vb" in terms:
                 terms["loss"] = terms["mse"] + terms["vb"]
             else:
