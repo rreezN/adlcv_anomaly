@@ -7,7 +7,7 @@ import nibabel
 from scipy import ndimage
 
 class BRATSDataset(torch.utils.data.Dataset):
-    def __init__(self, directory, test_flag=False, one_flag=True):
+    def __init__(self, directory, test_flag=False, one_flag=False):
         '''
         directory is expected to contain some folder structure:
                   if some subfolder contains only files, all of these
@@ -44,6 +44,8 @@ class BRATSDataset(torch.utils.data.Dataset):
                     seqtype = f.split('_')[2]
                     datapoint[seqtype] = os.path.join(root, f)
                 # print(f.split('_'), datapoint)
+                # Sort datapoint by sequence type
+                datapoint = {k: datapoint[k] for k in self.seqtypes}
                 assert set(datapoint.keys()) == self.seqtypes_set, \
                     f'datapoint is incomplete, keys are {datapoint.keys()}'
                 self.database.append(datapoint)
@@ -52,15 +54,17 @@ class BRATSDataset(torch.utils.data.Dataset):
         out = []
         filedict = self.database[x]
         for seqtype in self.seqtypes:
+            if seqtype == 'seg':
+                continue
             number=filedict['t1'].split('_')[3].split('.')[0]
             nib_img = nibabel.load(filedict[seqtype])
             out.append(torch.tensor(nib_img.get_fdata()))
         out = torch.stack(out)
         out_dict = {}
         if self.test_flag:
-            path2 = './data/brats/test_labels/' + str(
-                number) + '-label.nii.gz'
-
+            # path2 = './data/brats/testing/' + str(
+                # number) + '-label.nii.gz'
+            path2 = filedict['seg']
 
             seg=nibabel.load(path2)
             seg=seg.get_fdata()
