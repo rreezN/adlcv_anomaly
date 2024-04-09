@@ -7,7 +7,7 @@ import nibabel
 from scipy import ndimage
 
 class BRATSDataset(torch.utils.data.Dataset):
-    def __init__(self, directory, test_flag=False):
+    def __init__(self, directory, test_flag=False, one_flag=True):
         '''
         directory is expected to contain some folder structure:
                   if some subfolder contains only files, all of these
@@ -22,9 +22,15 @@ class BRATSDataset(torch.utils.data.Dataset):
 
         self.test_flag=test_flag
         if test_flag:
-            self.seqtypes = ['t1', 't1ce', 't2', 'flair']
+            if one_flag:
+                self.seqtypes = ['t1']
+            else:
+                self.seqtypes = ['t1', 't1ce', 't2', 'flair']
         else:
-            self.seqtypes = ['t1', 't1ce', 't2', 'flair', 'seg']
+            if one_flag:
+                self.seqtypes = ['t1', 'seg']
+            else:
+                self.seqtypes = ['t1', 't1ce', 't2', 'flair', 'seg']
 
         self.seqtypes_set = set(self.seqtypes)
         self.database = []
@@ -37,6 +43,7 @@ class BRATSDataset(torch.utils.data.Dataset):
                 for f in files:
                     seqtype = f.split('_')[2]
                     datapoint[seqtype] = os.path.join(root, f)
+                # print(f.split('_'), datapoint)
                 assert set(datapoint.keys()) == self.seqtypes_set, \
                     f'datapoint is incomplete, keys are {datapoint.keys()}'
                 self.database.append(datapoint)
