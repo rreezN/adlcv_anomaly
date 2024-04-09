@@ -8,7 +8,7 @@ import shutil
 data_path = './data/brats21/BraTS2021_Training_Data'
 
 # Location to save preprocessed data
-save_path = './data/brats21/processed/training'
+save_path = './data/brats21/processed'
 
 # if not os.path.exists(save_path):
 #     os.mkdir(save_path)
