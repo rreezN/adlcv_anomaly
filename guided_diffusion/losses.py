@@ -75,3 +75,21 @@ def discretized_gaussian_log_likelihood(x, *, means, log_scales):
     )
     assert log_probs.shape == x.shape
     return log_probs
+
+def LMSELoss(y, y_hat):
+  """
+  Calculates the Log-likelihood MSE loss between true target y and prediction y_hat.
+
+  Args:
+    y: True target tensor of size (N,) or (N,).
+    y_hat: Predicted target tensor of size (N,) or (N,).
+
+  Returns:
+    LLMSE loss tensor.
+  """
+  N = y.shape[0]
+  y = y.view(-1)
+  y_hat = y_hat.view(-1)
+  diff = max(y - y_hat, th.zeros_like(y))
+  return -th.log(1 - diff)
+    
