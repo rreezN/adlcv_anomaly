@@ -17,8 +17,8 @@ from guided_diffusion.script_util import (
     add_dict_to_argparser,
 )
 from guided_diffusion.train_util import TrainLoop
-from visdom import Visdom
-viz = Visdom(port=8097)
+# from visdom import Visdom
+# viz = Visdom(port=8097)
 
 def main():
     args = create_argparser().parse_args()
