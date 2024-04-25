@@ -17,10 +17,13 @@ import numpy as np
 import torch as th
 from .train_util import visualize
 from .nn import mean_flat
-from .losses import normal_kl, discretized_gaussian_log_likelihood, LMSELoss
+from .losses import normal_kl, discretized_gaussian_log_likelihood
 from scipy import ndimage
 from torchvision import transforms
 import matplotlib.pyplot as plt
+import os
+from torchvision.utils import save_image
+
 def standardize(img):
     mean = th.mean(img)
     std = th.std(img)
@@ -549,7 +552,11 @@ class GaussianDiffusion:
         device=None,
         noise_level=500,
         progress=False,
-        classifier=None
+        classifier=None,
+        output_folder=None,
+        ensembleNo=1,
+        imgNo=1,
+        plot=False
     ):
         if device is None:
             device = next(model.parameters()).device
@@ -579,7 +586,11 @@ class GaussianDiffusion:
             model_kwargs=model_kwargs,
             device=device,
             progress=progress,
-            classifier=classifier
+            classifier=classifier,
+            output_folder=output_folder,
+            ensembleNo=ensembleNo,
+            imgNo=imgNo,
+            plot=plot
         ):
             final = sample
       
@@ -641,7 +652,11 @@ class GaussianDiffusion:
         model_kwargs=None,
         device=None,
         progress=False,
-        classifier=None):
+        classifier=None,
+        output_folder=None,
+        ensembleNo=1,
+        imgNo=1,
+        plot=False):
         """
         Generate samples from the model and yield intermediate samples from
         each timestep of diffusion.
@@ -669,31 +684,40 @@ class GaussianDiffusion:
         
           
         for i in indices:
-                t = th.tensor([i] * shape[0], device=device)
+            t = th.tensor([i] * shape[0], device=device)
 
-                with th.no_grad():
-                    
-                   
-                    out = self.p_sample(
-                        model,
-                        img,
-                        t,
-                        clip_denoised=clip_denoised,
-                        denoised_fn=denoised_fn,
-                        cond_fn=cond_fn,
-                        model_kwargs=model_kwargs,
-                    )
-                    yield out
-                    img = out["sample"]
+            with th.no_grad():
+                
+                
+                out = self.p_sample(
+                    model,
+                    img,
+                    t,
+                    clip_denoised=clip_denoised,
+                    denoised_fn=denoised_fn,
+                    cond_fn=cond_fn,
+                    model_kwargs=model_kwargs,
+                )
+                yield out
+                img = out["sample"]
 
-                    if i%100==0:
-                     print('i', i)
-                     viz.image(visualize(img[0,0,...]), opts=dict(caption=str(i)))
-                     viz.image(visualize(img[0, 1,...]), opts=dict(caption=str(i)))
-                     viz.image(visualize(img[0, 2,...]), opts=dict(caption=str(i)))
-                     viz.image(visualize(img[0, 3,...]), opts=dict(caption=str(i)))
-                     viz.image(visualize(out["saliency"][0,0,...]), opts=dict(caption='saliency'))
-              
+                if plot and i%100==0:
+                    #print('i', i)
+                    # Combine images into one image
+                    combined_images = [visualize(img[0, i, ...]) for i in range(4)] + [visualize(out["saliency"][0, 0, ...])]  # Saliency map
+
+                    # Visualize combined images
+                    fig, axes = plt.subplots(1, 5, figsize=(20, 4))
+                    for n in range(len(combined_images)):
+                        axes[n].imshow(torch.squeeze(combined_images[n],(0,1)).detach().cpu().numpy(), cmap='gray')
+                        if n < 4:
+                            axes[n].set_title(f'Input {n} Noisestep {i}')
+                        else:
+                            axes[n].set_title('Saliency')
+                        axes[n].axis('off')
+
+                    fig.savefig(os.path.join(output_folder, f'img_{imgNo}_model_{ensembleNo+1}_input_and_saliency{i}.png')) 
+                    plt.close(fig)            
 
     def ddim_sample(
             self,
