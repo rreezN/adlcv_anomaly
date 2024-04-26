@@ -64,10 +64,12 @@ def prepare_classifier_model(args, classifier_path):
     return classifier
 
 def save_image_double(image, output_folder, file_name):
+    # path1 = os.path.join(output_folder,"pngs", f'{file_name}.pdf')
+    # save_image(image, path1)
     path1 = os.path.join(output_folder,"pngs", f'{file_name}.png')
     save_image(image, path1)
     path2 = os.path.join(output_folder,"numpys", f'{file_name}.npy')
-    np.save(image, path2)
+    np.save(path2, image.to("cpu", torch.uint8).numpy())
 
 
 def main():
