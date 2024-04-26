@@ -23,6 +23,8 @@ viz = Visdom(port=8097)
 def main():
     args = create_argparser().parse_args()
     
+    th.manual_seed(args.seed)
+    
     dist_util.setup_dist()
     logger.configure()
 
@@ -89,7 +91,7 @@ def create_argparser():
         use_fp16=False,
         fp16_scale_growth=1e-3,
         dataset='brats',
-        use_lmse=False
+        seed=42
     )
     defaults.update(model_and_diffusion_defaults())
     parser = argparse.ArgumentParser()
