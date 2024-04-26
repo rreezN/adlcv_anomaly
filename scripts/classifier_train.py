@@ -5,6 +5,7 @@ Train a noised image classifier on ImageNet.
 import argparse
 import os
 import sys
+import torch
 from torch.autograd import Variable
 sys.path.append("..")
 sys.path.append(".")
@@ -41,6 +42,8 @@ from guided_diffusion.train_util import parse_resume_step_from_filename, log_los
 
 def main():
     args = create_argparser().parse_args()
+
+    torch.manual_seed(args.seed)
 
     dist_util.setup_dist()
     logger.configure()
@@ -262,7 +265,8 @@ def create_argparser():
         log_interval=1,
         eval_interval=1000,
         save_interval=5000,
-        dataset='brats'
+        dataset='brats',
+        seed = 42
     )
     defaults.update(classifier_and_diffusion_defaults())
     parser = argparse.ArgumentParser()
