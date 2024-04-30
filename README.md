@@ -1,3 +1,24 @@
+# To Do list before Exam Deadline - 12th of May 2024
+
+#### Code implementation
+- [ ] Transpose images to have the brain be vertically oriented as in the paper
+- [ ] Normalize images in the dataloader with torch transforms - between -1 and 1
+#### To run on HPC
+- [ ] Train the correct model with a cosine scheduler for the variance
+#### Evaluations
+- [ ] Classifier with accuracy and confusion matrix
+- [ ] Threshold the anomaly images (OTSU???) and compared to GT segmentations (Segmentation scores or IoU or DICE). Can also be measured in accuracy, e.g. by saying if the IoU is under some threshold we count it as detected and otherwise NOPE.
+- [ ] FID scores :P
+- [ ] Assess the model with different L values - e.g. equidistantly run 10 different L values between some L less than the current L=500.
+#### Poster
+- [ ] Less text, preferebly bullet points
+- [ ] Illustration of model architectures
+- [ ] In Methods - have the training algorithm or showcase what happens during the training of the DDPM/DDIM ()
+- [ ] In Methods - remove some of the main text
+- [ ] Evaluate choice of font size
+- [ ] Ensemble not necessary (nice to have) - If we wish to keep it, we need to calculate the anomaly maps for each model, and the take the absolute mean across the ensemble, before thresholding to create a binary segmentation mask. :)
+- [ ] Investigate COO of the data. African data might be different. Difference between Brats21 and Brats20.
+
 # Diffusion Models for Medical Anomaly Detection
 
 We provide the Pytorch implementation of our MICCAI 2022 submission "Diffusion Models for Medical Anomaly Detection" (paper 704).
