@@ -30,7 +30,7 @@ def main():
 
     logger.log("Setting up training set dataloader...")
 
-    ds = BRATSDataset(args.OG_data_dir, test_flag=True)
+    ds = BRATSDataset(args.OG_data_dir)
     real_datal = th.utils.data.DataLoader(
         ds,
         batch_size=args.batch_size,
@@ -67,7 +67,7 @@ def frechet_inception_distance(args, real_dataloader, fake_dataloader):
     classifier_path = args.classifier_path
     classifier_model = prepare_classifier_model(args, classifier_path)
 
-    dims = 256
+    dims = 8192
 
     real_feat = np.empty((len(real_dataloader.dataset), dims))
     fake_feat = np.empty((len(fake_dataloader.dataset), dims))
@@ -76,9 +76,13 @@ def frechet_inception_distance(args, real_dataloader, fake_dataloader):
     start_idx = 0
     for images in tqdm(real_dataloader):
         img = images[0]
-        img.to(dist_util.dev())
-        real_activations = classifier_model(img).detach().cpu().numpy()
-        real_feat[start_idx:start_idx + real_activations.shape[0]] = real_activations
+        img = img.to(dist_util.dev())
+        logger.log(img.shape)
+        t =th.zeros(len(img), dtype=th.long, device=dist_util.dev())
+        real_activations = classifier_model.forward_feature_space(img, t).detach().cpu().numpy()
+        # logger.log(f"real_activations.shape: {real_activations.shape}")
+        activations_size = real_activations.shape[1]*real_activations.shape[2]*real_activations.shape[3]
+        real_feat[start_idx:start_idx + real_activations.shape[0]] = real_activations.reshape(real_activations.shape[0],activations_size)
         start_idx = start_idx + real_activations.shape[0]
 
     # Compute the mean and covariance of the activations
@@ -89,10 +93,13 @@ def frechet_inception_distance(args, real_dataloader, fake_dataloader):
     logger.log("Computing activations for fake samples...")
     start_idx = 0
     for images in tqdm(fake_dataloader):
-        img = images[0]
-        img.to(dist_util.dev())
-        fake_activations = classifier_model(img).detach().cpu().numpy()
-        fake_feat[start_idx:start_idx + fake_activations.shape[0]] = fake_activations
+        img = images #[0]
+        img = img.to(dist_util.dev())
+        logger.log(img.shape)
+        t =th.zeros(len(img), dtype=th.long, device=dist_util.dev())
+        fake_activations = classifier_model.forward_feature_space(img,t).detach().cpu().numpy()
+        activations_size = fake_activations.shape[1]*fake_activations.shape[2]*fake_activations.shape[3]
+        fake_feat[start_idx:start_idx + fake_activations.shape[0]] = fake_activations.reshape(fake_activations.shape[0],activations_size)
         start_idx = start_idx + fake_activations.shape[0]
 
     # Compute the mean and covariance of the activations
