@@ -1,5 +1,8 @@
 import argparse
 import inspect
+import torch
+import numpy as np
+import random
 
 from . import gaussian_diffusion as gd
 from .respace import SpacedDiffusion, space_timesteps
@@ -7,6 +10,13 @@ from .unet import SuperResModel, UNetModel, EncoderUNetModel
 
 NUM_CLASSES = 2
 
+def set_seed(seed=42):
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+    torch.backends.cudnn.deterministic = True
 
 def diffusion_defaults():
     """

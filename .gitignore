@@ -16,5 +16,4 @@ results/
 
 models/ 
 *.pt
-output_images/*
-output_images
+output_images/
