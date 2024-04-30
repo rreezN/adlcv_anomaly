@@ -55,11 +55,7 @@ class BRATSDataset(torch.utils.data.Dataset):
         # map from 0-255 to -1, 1
         output = output_start + ((output_end - output_start) / (input_end - input_start)) * (x - input_start)
         return output
-    
-    def inv_map_to_range(self, x):
-        # map from -1, 1 to 0-255
-        return ((x + 1) / 2.0) * 255.0
-    
+
     def __getitem__(self, x):
         out = []
         filedict = self.database[x]
