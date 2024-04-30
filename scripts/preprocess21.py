@@ -3,7 +3,7 @@ import numpy as np
 import nibabel
 import random
 import shutil
-
+from tqdm import tqdm
 # Dataset storage location
 data_path = './data/brats21/BraTS2021_Training_Data'
 
@@ -20,13 +20,13 @@ modalities = ['t1', 't1ce', 't2', 'flair', 'seg']
 def preprocess():
     num = 1
 
-    for index, dir in enumerate(dir_list):
+    for dir in (pbar:=tqdm(dir_list, total=len(dir_list))):
         
         # Skip if the directory contains this file (Brats2021 dataset specific)
         if dir == '.DS_Store':
             continue
 
-        print(f"{index} / {len(dir_list)}")
+        # print(f"{index} / {len(dir_list)}")
 
         patient_path = os.path.join(data_path, dir)
 
@@ -38,6 +38,7 @@ def preprocess():
             model_data[model] = data
 
         for i in range(80, 129):
+            pbar.set_description(f"Processing {dir} slice {i}")
             file_num = str(num).zfill(6)
             save_slice_path = os.path.join(save_path, file_num)
             if not os.path.exists(save_slice_path):
@@ -67,6 +68,7 @@ def preprocess():
                     img = nibabel.Nifti1Image(img, affine=np.eye(4))
                     nibabel.save(img, save_model_path)
             num += 1
+            pbar.set_postfix({"num": num})
 
 
 def split_data():
@@ -79,68 +81,55 @@ def split_data():
     os.makedirs(testing_path, exist_ok=True)
 
     # Get list of files
-    dir_list = os.listdir(save_path)
-
-    # Shuffle the list of files
-    random.shuffle(dir_list)
-
+    dir_list = os.listdir(save_path)[:-2]
+    
     # Calculate the number of samples for training and testing sets
     total_samples = len(dir_list)
-    
+    nr_patients = int(total_samples / 49)
+    patient_idx = list(range(0, nr_patients))
+
     # Exclude the 'training' and 'testing' directories created earlier
-    total_samples = total_samples - 2
-    train_samples = int(0.9 * total_samples)
-    test_samples = total_samples - train_samples
+    train_samples = int(0.9 * nr_patients)
+    test_samples = nr_patients - train_samples
+
+    # Shuffle the list of files
+    random.shuffle(patient_idx)
 
     train_health_num = 0
     test_health_num = 0
 
-    for i, dir_name in enumerate(dir_list):
-        print(f"{i} / {total_samples}")
+    for i in (pbar:= tqdm(range(nr_patients), total=nr_patients)):
+        file_idx_range = list(range(patient_idx[i] * 49, (patient_idx[i] + 1) * 49))
+        
+        for j in file_idx_range:
+            pbar.set_description(f"Patient {i}, slice {j}")
+            dir_name = dir_list[j]
+            source_dir_path = os.path.join(save_path, dir_name)
 
-        if dir_name == 'training' or dir_name == 'testing':
-            continue
-
-        source_dir_path = os.path.join(save_path, dir_name)
-
-        if i < train_samples:
             file = os.listdir(source_dir_path)
-
             # Extract label to determine health status
             seg_files = [file_name for file_name in file if "seg" in file_name]
-
             if len(seg_files) == 0:
                 print("---")
             seg_file = os.path.join(source_dir_path, seg_files[0])
             image = nibabel.load(seg_file).get_fdata()
+            if i < train_samples:
+                if image.max() == 0:
+                    train_health_num += 1
+                destination_dir_path = os.path.join(training_path, dir_name)
+            else:
+                if image.max() == 0:
+                    test_health_num += 1
+                destination_dir_path = os.path.join(testing_path, dir_name)
+            # Move directories
+            shutil.move(source_dir_path, destination_dir_path)
 
-            if image.max() == 0:
-                train_health_num += 1
-
-            destination_dir_path = os.path.join(training_path, dir_name)
-
-        else:
-            file = os.listdir(source_dir_path)
-
-            seg_files = [file_name for file_name in file if "seg" in file_name]
-            if len(seg_files) == 0:
-                print("---")
-            seg_file = os.path.join(source_dir_path, seg_files[0])
-            image = nibabel.load(seg_file).get_fdata()
-            if image.max() == 0:
-                test_health_num += 1
-            destination_dir_path = os.path.join(testing_path, dir_name)
-
-            # Extract 'seg' for test_labels separately
-            # ... (write your code here)
-
-        # Move directories
-        shutil.move(source_dir_path, destination_dir_path)
-
-    print(f"Training set: Healthy {train_health_num}, Abnormal {train_samples - train_health_num}, Total {train_samples}")
-    print(f"Testing set: Healthy {test_health_num}, Abnormal {test_samples - test_health_num}, Total {test_samples}")
+    print(f"Training set: Healthy {train_health_num}, Abnormal {train_samples*49 - train_health_num}, Total {train_samples*49}")
+    print(f"Testing set: Healthy {test_health_num}, Abnormal {test_samples*49 - test_health_num}, Total {test_samples*49}")
 
 if __name__ == '__main__':
-    preprocess()
+    random.seed(42)
+
+    # preprocess()
 
     split_data()

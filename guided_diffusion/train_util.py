@@ -12,8 +12,8 @@ from . import dist_util, logger
 from .fp16_util import MixedPrecisionTrainer
 from .nn import update_ema
 from .resample import LossAwareSampler, UniformSampler
-from visdom import Visdom
-viz = Visdom(port=8097)
+# from visdom import Visdom
+# viz = Visdom(port=8097)
 
 INITIAL_LOG_LOSS_SCALE = 20.0
 
