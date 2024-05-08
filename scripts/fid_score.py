@@ -2,6 +2,7 @@ import argparse
 import sys
 sys.path.append("..")
 sys.path.append(".")
+import os
 import torch as th
 import torch.nn as nn
 import torch.distributions as td
@@ -73,17 +74,25 @@ def frechet_inception_distance(args, real_dataloader, fake_dataloader):
     fake_feat = np.empty((len(fake_dataloader.dataset), dims))
 
     logger.log("Computing activations for real samples...")
-    start_idx = 0
-    for images in tqdm(real_dataloader):
-        img = images[0]
-        img = img.to(dist_util.dev())
-        logger.log(img.shape)
-        t =th.zeros(len(img), dtype=th.long, device=dist_util.dev())
-        real_activations = classifier_model.forward_feature_space(img, t).detach().cpu().numpy()
-        # logger.log(f"real_activations.shape: {real_activations.shape}")
-        activations_size = real_activations.shape[1]*real_activations.shape[2]*real_activations.shape[3]
-        real_feat[start_idx:start_idx + real_activations.shape[0]] = real_activations.reshape(real_activations.shape[0],activations_size)
-        start_idx = start_idx + real_activations.shape[0]
+    logger.log(f"Number of real images: {len(real_dataloader.dataset)}")
+
+    # If file called "real_activations.npy" exists, load it and return
+    if os.path.exists("data/brats21/processed/real_activations.npy"):
+        real_feat = np.load("real_activations.npy")
+        logger.log("Loaded real activations from file.")
+    
+    else:
+        start_idx = 0
+        for images in tqdm(real_dataloader):
+            img = images[0]
+            img = img.to(dist_util.dev())
+            t =th.zeros(len(img), dtype=th.long, device=dist_util.dev())
+            real_activations = classifier_model.forward_feature_space(img, t).detach().cpu().numpy()
+            # logger.log(f"real_activations.shape: {real_activations.shape}")
+            activations_size = real_activations.shape[1]*real_activations.shape[2]*real_activations.shape[3]
+            real_feat[start_idx:start_idx + real_activations.shape[0]] = real_activations.reshape(real_activations.shape[0],activations_size)
+            start_idx = start_idx + real_activations.shape[0]
+        np.save("data/brats21/processed/real_activations.npy", real_feat)
 
     # Compute the mean and covariance of the activations
     mu_real, sigma_real = real_feat.mean(axis=0), np.cov(real_feat, rowvar=False)
@@ -92,10 +101,10 @@ def frechet_inception_distance(args, real_dataloader, fake_dataloader):
 
     logger.log("Computing activations for fake samples...")
     start_idx = 0
+    logger.log(f"Number of fake samples: {len(fake_dataloader.dataset)}")
     for images in tqdm(fake_dataloader):
-        img = images #[0]
+        img = images
         img = img.to(dist_util.dev())
-        logger.log(img.shape)
         t =th.zeros(len(img), dtype=th.long, device=dist_util.dev())
         fake_activations = classifier_model.forward_feature_space(img,t).detach().cpu().numpy()
         activations_size = fake_activations.shape[1]*fake_activations.shape[2]*fake_activations.shape[3]
