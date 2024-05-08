@@ -76,7 +76,7 @@ def main():
     args = create_argparser().parse_args()
 
     # Create a folder to save images if it doesn't exist
-    output_folder = os.path.join('output_images', datetime.now().strftime("%Y%m%d-%H%M%S"))
+    output_folder = os.path.join('output_images', f"noise{str(args.noise_level)}-s{args.classifier_scale}-" + datetime.now().strftime("%Y%m%d-%H%M%S"))
     os.makedirs(output_folder, exist_ok=True)
     os.makedirs(os.path.join(output_folder, "pngs"), exist_ok=True)
     os.makedirs(os.path.join(output_folder, "numpys"), exist_ok=True)
