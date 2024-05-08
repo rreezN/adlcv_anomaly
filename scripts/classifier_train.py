@@ -35,6 +35,7 @@ from guided_diffusion.script_util import (
     args_to_dict,
     classifier_and_diffusion_defaults,
     create_classifier_and_diffusion,
+    set_seed
 )
 from guided_diffusion.train_util import parse_resume_step_from_filename, log_loss_dict
 
@@ -43,7 +44,7 @@ from guided_diffusion.train_util import parse_resume_step_from_filename, log_los
 def main():
     args = create_argparser().parse_args()
 
-    torch.manual_seed(args.seed)
+    set_seed(args.seed)
 
     dist_util.setup_dist()
     logger.configure()

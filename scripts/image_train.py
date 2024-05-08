@@ -15,6 +15,7 @@ from guided_diffusion.script_util import (
     create_model_and_diffusion,
     args_to_dict,
     add_dict_to_argparser,
+    set_seed
 )
 from guided_diffusion.train_util import TrainLoop
 # from visdom import Visdom
@@ -23,7 +24,7 @@ from guided_diffusion.train_util import TrainLoop
 def main():
     args = create_argparser().parse_args()
     
-    th.manual_seed(args.seed)
+    set_seed(args.seed)
     
     dist_util.setup_dist()
     logger.configure()

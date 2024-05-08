@@ -50,16 +50,22 @@ class BRATSDataset(torch.utils.data.Dataset):
                     f'datapoint is incomplete, keys are {datapoint.keys()}'
                 self.database.append(datapoint)
 
+    @staticmethod
+    def map_to_range(x, output_start=-1, output_end=1, input_start=0, input_end=1):
+        # map from 0-255 to -1, 1
+        output = output_start + ((output_end - output_start) / (input_end - input_start)) * (x - input_start)
+        return output
+
     def __getitem__(self, x):
         out = []
         filedict = self.database[x]
         for seqtype in self.seqtypes:
             number=filedict['t1'].split('_')[3].split('.')[0]
             nu = filedict['t1'].split('_')[1]
-            n = filedict['t1'].split('\\')[1]
+            n = filedict['t1'].split('/')[6]
             nib_img = nibabel.load(filedict[seqtype])
-            out.append(torch.tensor(nib_img.get_fdata()))
-        out = torch.stack(out)
+            out.append(torch.tensor(nib_img.get_fdata()).T)
+        out =torch.stack(out)
         out_dict = {}
         if self.test_flag:
             path2 = './data/brats21/processed/testing/' + str(n) + '/BraTS2021_' + str(
@@ -69,33 +75,43 @@ class BRATSDataset(torch.utils.data.Dataset):
             seg=seg.get_fdata()
             image = torch.zeros(4, 256, 256)
             image[:, 8:-8, 8:-8] = out
-            label = seg[None, ...]
+            image =  self.map_to_range(image)
+            label = seg.T[None, ...]
             if seg.max() > 0:
                 weak_label = 1
             else:
                 weak_label = 0
             out_dict["y"]=weak_label
+            return (image, out_dict, weak_label, label, number, n)
+
         else:
             image = torch.zeros(4,256,256)
-            image[:,8:-8,8:-8]=out[:-1,...]		#pad to a size of (256,256)
+            image[:,8:-8,8:-8]=out[:-1,...]#pad to a size of (256,256)
+            image =  self.map_to_range(image) 
             label = out[-1, ...][None, ...]
             if label.max()>0:
                 weak_label=1
             else:
                 weak_label=0
             out_dict["y"] = weak_label
-
-        return (image, out_dict, weak_label, label, number)
+            return (image, out_dict, weak_label, label, number)
 
     def __len__(self):
         return len(self.database)
 
 
 if __name__ == '__main__':
-    ds = BRATSDataset('data/brats21/processed/testing', test_flag=True)
+    ds = BRATSDataset('data/brats21/processed/testing', test_flag=False)
     datal = torch.utils.data.DataLoader(ds, batch_size=5, shuffle=True)
     datal = iter(datal)
-    batch, cond, label, _, _ = next(datal)
+    batch, cond, label, label_img, _ = next(datal)
+    #plot the first image
+    data = batch[0, 0, ...]
+    import matplotlib.pyplot as plt
+    fig, ax = plt.subplots(1, 2)
+    ax[0].imshow(data)
+    ax[1].imshow(label_img[0, 0, ...])
+    plt.show()
     print(batch.shape, cond, label)
     # for batch, cond, label in datal:
     #     print(batch.shape, cond, label)
