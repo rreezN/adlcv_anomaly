@@ -8,7 +8,7 @@
 #### Evaluations
 - [ ] Classifier with accuracy and confusion matrix
 - [ ] Threshold the anomaly images (OTSU???) and compared to GT segmentations (Segmentation scores or IoU or DICE). Can also be measured in accuracy, e.g. by saying if the IoU is under some threshold we count it as detected and otherwise NOPE.
-- [ ] Calculate average DICE score for all samples
+- [ ] Script that can calculate average IoU or DICE score for all samples (using sampleloader.py)
 - [ ] FID scores for all samples
 - [ ] Assess the model visually with different L values - e.g. equidistantly run 10 different L values
 - [ ] Assess the model visually with different s values - e.g. equidistantly run 10 different s values
@@ -19,8 +19,8 @@
 - [ ] In Methods - remove some of the main text
 - [ ] Evaluate choice of font size
 - [ ] Showing plots brain samples with s=0
-- [ ] Comparing L-values
-- [ ] Comparing S-values
+- [ ] Plot comparing L-values visually for one brain
+- [ ] Plot comparing S-values visually for one brain
 - [ ] Investigate COO of the data. African data might be different. Difference between Brats21 and Brats20.
 
 # Diffusion Models for Medical Anomaly Detection
