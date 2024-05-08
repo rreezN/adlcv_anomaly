@@ -78,7 +78,7 @@ def frechet_inception_distance(args, real_dataloader, fake_dataloader):
 
     # If file called "real_activations.npy" exists, load it and return
     if os.path.exists("data/brats21/processed/real_activations.npy"):
-        real_feat = np.load("real_activations.npy")
+        real_feat = np.load("data/brats21/processed/real_activations.npy")
         logger.log("Loaded real activations from file.")
     
     else:
