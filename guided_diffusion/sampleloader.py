@@ -19,5 +19,4 @@ class SampledDataset(Dataset):
             image = np.load(image_path)
             image_stack.append(torch.tensor(image).float())
         stck = torch.stack(image_stack)
-        print(stck.shape)
         return (torch.stack(image_stack))
