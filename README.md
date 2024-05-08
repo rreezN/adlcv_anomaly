@@ -1,8 +1,8 @@
 # To Do list before Exam Deadline - 12th of May 2024
 
 #### Code implementation
-- [ ] Transpose images to have the brain be vertically oriented as in the paper
-- [ ] Normalize images in the dataloader with torch transforms - between -1 and 1
+- [x] Transpose images to have the brain be vertically oriented as in the paper
+- [x] Normalize images in the dataloader with torch transforms - between -1 and 1
 #### To run on HPC
 - [ ] Train the correct model with a cosine scheduler for the variance
 #### Evaluations
