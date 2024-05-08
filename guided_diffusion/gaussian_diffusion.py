@@ -913,7 +913,11 @@ class GaussianDiffusion:
             conditioning=False,
             conditioner=None,
             classifier=None,
-            eta = 0.0
+            eta = 0.0,
+            output_folder=None,
+            ensembleNo=1,
+            imgNo=1,
+            plot=False
     ):
         if device is None:
             device = next(model.parameters()).device
@@ -941,6 +945,10 @@ class GaussianDiffusion:
             device=device,
             progress=progress,
             eta=eta,
+            output_folder=output_folder,
+            ensembleNo=ensembleNo,
+            imgNo=imgNo,
+            plot=plot
         ):
             final = sample
         viz.image(visualize(final["sample"].cpu()[0,0, ...]), opts=dict(caption="final 0" ))
@@ -965,6 +973,10 @@ class GaussianDiffusion:
         device=None,
         progress=False,
         eta=0.0,
+        output_folder=None,
+        ensembleNo=1,
+        imgNo=1,
+        plot=False
     ):
         """
         Use DDIM to sample from the model and yield intermediate samples from
@@ -980,7 +992,7 @@ class GaussianDiffusion:
         else:
             img = th.randn(*shape, device=device)
         indices = list(range(time-1))[::-1]
-        print('indices', indices)
+        print('indices length ', len(indices), '- indices min', min(indices), '- indices max', max(indices))
 
         if progress:
             # Lazy import so that we don't depend on tqdm.
@@ -991,8 +1003,10 @@ class GaussianDiffusion:
         for i in indices:
 
             k=abs(time-1-i)
-            if k%20==0:
-                print('k',k)
+            #if k%20==0:
+                #print('i',i, 'k',k, 'shape', shape)
+                #print('k',k)
+                
 
             t = th.tensor([k] * shape[0], device=device)
             with th.no_grad():
@@ -1010,23 +1024,60 @@ class GaussianDiffusion:
                 yield out
                 img = out["sample"]
 
-        viz.image(visualize(img.cpu()[0,0, ...]), opts=dict(caption="reversesample"))
+            if plot and i%100==0:
+                #print('i', i)
+                # Combine images into one image
+                combined_images = [visualize(img[0, n, ...]) for n in range(4)] #+ [visualize(out["saliency"][0, 0, ...])]  # Saliency map
+
+                # Visualize combined images
+                fig, axes = plt.subplots(1, 4, figsize=(16, 4))
+                for n in range(len(combined_images)):
+                    axes[n].imshow(torch.squeeze(combined_images[n],(0,1)).detach().cpu().numpy(), cmap='gray')
+                    if n < 4:
+                        axes[n].set_title(f'Input {n} Reversed Noisestep {k}')
+                    else:
+                        axes[n].set_title('Saliency')
+                    axes[n].axis('off')
+
+                fig.savefig(os.path.join(output_folder, f'img_{imgNo}_model_{ensembleNo+1}_rev_input_{i}.pdf')) 
+                plt.close(fig)
+
+        #viz.image(visualize(img.cpu()[0,0, ...]), opts=dict(caption="reversesample"))
+
         for i in indices:
-                t = th.tensor([i] * shape[0], device=device)
-                with th.no_grad():
-                 out = self.ddim_sample(
-                    model,
-                    img,
-                    t,
-                    clip_denoised=clip_denoised,
-                    denoised_fn=denoised_fn,
-                    cond_fn=cond_fn,
-                    model_kwargs=model_kwargs,
-                    eta=eta,
-                 )
-                yield out
-                img = out["sample"]
-                saliency=out['saliency']
+            t = th.tensor([i] * shape[0], device=device)
+            with th.no_grad():
+                out = self.ddim_sample(
+                model,
+                img,
+                t,
+                clip_denoised=clip_denoised,
+                denoised_fn=denoised_fn,
+                cond_fn=cond_fn,
+                model_kwargs=model_kwargs,
+                eta=eta,
+                )
+            yield out
+            img = out["sample"]
+            saliency=out['saliency']
+            
+            if plot and i%100==0:
+                #print('i', i)
+                # Combine images into one image
+                combined_images = [visualize(img[0, i, ...]) for i in range(4)] + [visualize(out["saliency"][0, 0, ...])]  # Saliency map
+
+                # Visualize combined images
+                fig, axes = plt.subplots(1, 5, figsize=(20, 4))
+                for n in range(len(combined_images)):
+                    axes[n].imshow(torch.squeeze(combined_images[n],(0,1)).detach().cpu().numpy(), cmap='gray')
+                    if n < 4:
+                        axes[n].set_title(f'Input {n} Sample Noisestep {i}')
+                    else:
+                        axes[n].set_title('Saliency')
+                    axes[n].axis('off')
+
+                fig.savefig(os.path.join(output_folder, f'img_{imgNo}_model_{ensembleNo+1}_sample_input_and_saliency{i}.pdf')) 
+                plt.close(fig)
 
     def _vb_terms_bpd(
         self, model, x_start, x_t, t, clip_denoised=True, model_kwargs=None
