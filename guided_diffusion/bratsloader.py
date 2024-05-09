@@ -62,7 +62,7 @@ class BRATSDataset(torch.utils.data.Dataset):
         for seqtype in self.seqtypes:
             number=filedict['t1'].split('_')[3].split('.')[0]
             nu = filedict['t1'].split('_')[1]
-            n = filedict['t1'].split('/')[6]
+            n = filedict['t1'].split('/')[5]
             nib_img = nibabel.load(filedict[seqtype])
             out.append(torch.tensor(nib_img.get_fdata()).T)
         out =torch.stack(out)
@@ -76,7 +76,10 @@ class BRATSDataset(torch.utils.data.Dataset):
             image = torch.zeros(4, 256, 256)
             image[:, 8:-8, 8:-8] = out
             image =  self.map_to_range(image)
-            label = seg.T[None, ...]
+            lbl = seg.T[None, ...]
+            label = torch.zeros(1,256,256)
+            label[:,8:-8,8:-8] = lbl
+
             if seg.max() > 0:
                 weak_label = 1
             else:
@@ -88,7 +91,8 @@ class BRATSDataset(torch.utils.data.Dataset):
             image = torch.zeros(4,256,256)
             image[:,8:-8,8:-8]=out[:-1,...]#pad to a size of (256,256)
             image =  self.map_to_range(image) 
-            label = out[-1, ...][None, ...]
+            label = torch.zeros(1,256,256)
+            label[:,8:-8,8:-8] = out[-1, ...][None, ...]
             if label.max()>0:
                 weak_label=1
             else:
